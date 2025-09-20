@@ -8,7 +8,7 @@ dotenv.config({
   path: path.resolve(__dirname, '.env')
 })
 
-const API_URL = process.env.API_URL || '/test/'
+const API_URL = process.env.VITE_API_BASE_URL || '/test/'
 
 // https://vite.dev/config/
 export default defineConfig({
