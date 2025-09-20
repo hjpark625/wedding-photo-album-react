@@ -9,17 +9,41 @@
 
 @layer theme {
   body {
-    @apply min-h-dvh my-0 mx-auto border border-gray-300 border-y-0
-    /* min-height: 100dvh;
-    margin: 0 auto;
-    border: 1px solid #ccc;
-    border-top: none;
-    border-bottom: none; */
-    /* @apply bg-gray-100 text-gray-900; */;
+    @apply min-h-dvh my-0 mx-auto border border-gray-300 border-y-0;
   }
 }
 
 @layer base {
+  .section {
+    @apply flex justify-between h-dvh w-full bg-[#f0f0f0] box-border;
+  }
+
+  .first {
+    background: url('https://wedding-photos.hjpark625.site/7f7e44b8-224b-4eef-a7bb-898c80b76a4b.jpeg') repeat;
+    @apply relative bg-cover bg-position-[center,center];
+
+    & .title-section {
+      @apply absolute top-4 max-w-min left-0 text-center;
+    }
+
+    & .image-upload-button {
+      @apply absolute top-[20%] right-7 px-2.5 py-5 bg-transparent border border-black cursor-pointer;
+    }
+
+    & .image-upload-input {
+      @apply hidden;
+    }
+
+    @media screen and (max-width: 768px) {
+      .title-section {
+        @apply top-4 left-1/2 -translate-x-1/2;
+      }
+      .image-upload-button {
+        top: initial;
+        @apply bottom-6 right-7 bg-[#f0f0f0];
+      }
+    }
+  }
 }
 
 @layer components {
