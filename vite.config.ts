@@ -27,5 +27,23 @@ export default defineConfig({
     alias: {
       '@': path.resolve(__dirname, './src')
     }
+  },
+  build: {
+    outDir: 'dist',
+    assetsDir: 'assets',
+    sourcemap: true,
+    rollupOptions: {
+      output: {
+        entryFileNames: 'js/[name]_[hash:6].js',
+        chunkFileNames: 'js/[name]_[hash:6].js',
+        assetFileNames: (assetInfo) => {
+          const ext = assetInfo.name?.split('.').pop()?.toLowerCase()
+          if (ext === 'css') {
+            return 'css/[name]_[hash:6].[ext]'
+          }
+          return 'assets/[name]_[hash:6].[ext]'
+        }
+      }
+    }
   }
 })
