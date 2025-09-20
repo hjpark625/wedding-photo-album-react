@@ -1,0 +1,45 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-photo-button: 'Nanum Gothic', sans-serif;
+  --font-thanks: 'Nanum Brush Script', serif;
+  --font-greeting: 'Nanum Pen Script', monospace;
+  --font-main: 'The Nautigal', cursive;
+}
+
+@layer theme {
+  body {
+    @apply min-h-dvh my-0 mx-auto border border-gray-300 border-y-0
+    /* min-height: 100dvh;
+    margin: 0 auto;
+    border: 1px solid #ccc;
+    border-top: none;
+    border-bottom: none; */
+    /* @apply bg-gray-100 text-gray-900; */;
+  }
+}
+
+@layer base {
+}
+
+@layer components {
+  .main-title {
+    font-family: var(--font-main);
+    @apply font-bold not-italic text-8xl;
+  }
+
+  .greeting-title {
+    font-family: var(--font-greeting);
+    @apply font-normal not-italic text-5xl;
+  }
+
+  .thanks-paragraph {
+    font-family: var(--font-thanks);
+    @apply font-normal not-italic text-2xl;
+  }
+
+  .upload-button-text {
+    font-family: var(--font-photo-button);
+    @apply font-normal not-italic text-lg underline;
+  }
+}
