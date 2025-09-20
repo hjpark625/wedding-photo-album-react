@@ -32,6 +32,9 @@ export default defineConfig({
     outDir: 'dist',
     assetsDir: 'assets',
     sourcemap: true,
+    cssMinify: true,
+    cssCodeSplit: true,
+    minify: true,
     rollupOptions: {
       output: {
         entryFileNames: 'js/[name]_[hash:6].js',
