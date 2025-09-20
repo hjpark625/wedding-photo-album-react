@@ -1,8 +1,10 @@
+import FirstSection from '@/sections/FirstSection'
+
 function App() {
   return (
-    <div>
-      <span className="main-title">Hello World!</span>
-    </div>
+    <>
+      <FirstSection />
+    </>
   )
 }
 
