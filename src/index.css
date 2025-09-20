@@ -8,38 +8,81 @@
 }
 
 @layer theme {
+  * {
+    user-select: none;
+  }
+
   body {
-    @apply min-h-dvh my-0 mx-auto border border-gray-300 border-y-0
-    /* min-height: 100dvh;
-    margin: 0 auto;
-    border: 1px solid #ccc;
-    border-top: none;
-    border-bottom: none; */
-    /* @apply bg-gray-100 text-gray-900; */;
+    @apply mx-auto my-0 min-h-dvh border border-y-0 border-gray-300;
   }
 }
 
 @layer base {
+  .validation-message {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+    background-color: #f0f0f0;
+    box-sizing: border-box;
+    p {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #333;
+    }
+  }
+
+  .section {
+    @apply box-border flex h-dvh w-full justify-between bg-[#f0f0f0];
+  }
+
+  .first {
+    background: url('https://wedding-photos.hjpark625.site/7f7e44b8-224b-4eef-a7bb-898c80b76a4b.jpeg') repeat;
+    @apply relative bg-cover bg-position-[center,center];
+
+    & .title-section {
+      @apply absolute top-4 left-0 max-w-min text-center;
+    }
+
+    & .image-upload-button {
+      @apply absolute top-[20%] right-7 cursor-pointer border border-black bg-transparent px-2.5 py-5;
+    }
+
+    & .image-upload-input {
+      @apply hidden;
+    }
+
+    @media screen and (max-width: 768px) {
+      .title-section {
+        @apply top-4 left-1/2 -translate-x-1/2;
+      }
+      .image-upload-button {
+        top: initial;
+        @apply right-7 bottom-6 bg-[#f0f0f0];
+      }
+    }
+  }
 }
 
 @layer components {
   .main-title {
     font-family: var(--font-main);
-    @apply font-bold not-italic text-8xl;
+    @apply text-8xl font-bold not-italic;
   }
 
   .greeting-title {
     font-family: var(--font-greeting);
-    @apply font-normal not-italic text-5xl;
+    @apply text-5xl font-normal not-italic;
   }
 
   .thanks-paragraph {
     font-family: var(--font-thanks);
-    @apply font-normal not-italic text-2xl;
+    @apply text-2xl font-normal not-italic;
   }
 
   .upload-button-text {
     font-family: var(--font-photo-button);
-    @apply font-normal not-italic text-lg underline;
+    @apply text-lg font-normal not-italic underline;
   }
 }
