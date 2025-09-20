@@ -8,8 +8,12 @@
 }
 
 @layer theme {
+  * {
+    user-select: none;
+  }
+
   body {
-    @apply min-h-dvh my-0 mx-auto border border-gray-300 border-y-0;
+    @apply mx-auto my-0 min-h-dvh border border-y-0 border-gray-300;
   }
 }
 
@@ -30,7 +34,7 @@
   }
 
   .section {
-    @apply flex justify-between h-dvh w-full bg-[#f0f0f0] box-border;
+    @apply box-border flex h-dvh w-full justify-between bg-[#f0f0f0];
   }
 
   .first {
@@ -38,11 +42,11 @@
     @apply relative bg-cover bg-position-[center,center];
 
     & .title-section {
-      @apply absolute top-4 max-w-min left-0 text-center;
+      @apply absolute top-4 left-0 max-w-min text-center;
     }
 
     & .image-upload-button {
-      @apply absolute top-[20%] right-7 px-2.5 py-5 bg-transparent border border-black cursor-pointer;
+      @apply absolute top-[20%] right-7 cursor-pointer border border-black bg-transparent px-2.5 py-5;
     }
 
     & .image-upload-input {
@@ -55,7 +59,7 @@
       }
       .image-upload-button {
         top: initial;
-        @apply bottom-6 right-7 bg-[#f0f0f0];
+        @apply right-7 bottom-6 bg-[#f0f0f0];
       }
     }
   }
@@ -64,21 +68,21 @@
 @layer components {
   .main-title {
     font-family: var(--font-main);
-    @apply font-bold not-italic text-8xl;
+    @apply text-8xl font-bold not-italic;
   }
 
   .greeting-title {
     font-family: var(--font-greeting);
-    @apply font-normal not-italic text-5xl;
+    @apply text-5xl font-normal not-italic;
   }
 
   .thanks-paragraph {
     font-family: var(--font-thanks);
-    @apply font-normal not-italic text-2xl;
+    @apply text-2xl font-normal not-italic;
   }
 
   .upload-button-text {
     font-family: var(--font-photo-button);
-    @apply font-normal not-italic text-lg underline;
+    @apply text-lg font-normal not-italic underline;
   }
 }
