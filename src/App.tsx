@@ -3,6 +3,7 @@ import { AxiosError } from 'axios'
 
 import FirstSection from '@/sections/FirstSection'
 import SecondSection from '@/sections/SecondSection'
+import ThirdSection from '@/sections/ThirdSection'
 
 import { getCsrfToken, getQrAccessValidation } from '@/api/authRequest'
 
@@ -64,6 +65,7 @@ function App() {
     <>
       <FirstSection csrfToken={csrfToken} />
       <SecondSection />
+      <ThirdSection />
     </>
   ) : (
     <section className="validation-message">
