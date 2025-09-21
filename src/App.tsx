@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { AxiosError } from 'axios'
 
 import FirstSection from '@/sections/FirstSection'
+import SecondSection from '@/sections/SecondSection'
 
 import { getCsrfToken, getQrAccessValidation } from '@/api/authRequest'
 
@@ -62,6 +63,7 @@ function App() {
   return isValidated ? (
     <>
       <FirstSection csrfToken={csrfToken} />
+      <SecondSection />
     </>
   ) : (
     <section className="validation-message">
