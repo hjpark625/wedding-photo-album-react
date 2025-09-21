@@ -1,0 +1,155 @@
+@layer components {
+  .validation-message {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+    background-color: #f0f0f0;
+    box-sizing: border-box;
+    p {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #333;
+    }
+  }
+
+  .section {
+    @apply box-border flex h-dvh w-full justify-between bg-[#f0f0f0];
+  }
+
+  .first {
+    background: url('https://wedding-photos.hjpark625.site/7f7e44b8-224b-4eef-a7bb-898c80b76a4b.jpeg') repeat;
+    @apply relative bg-cover bg-position-[center,center];
+
+    & .title-section {
+      @apply absolute top-4 left-0 max-w-min text-center;
+    }
+
+    & .image-upload-button {
+      @apply absolute top-[20%] right-7 cursor-pointer border border-black bg-transparent px-2.5 py-5;
+    }
+
+    & .image-upload-input {
+      @apply hidden;
+    }
+
+    @media screen and (max-width: 768px) {
+      .title-section {
+        @apply top-4 left-1/2 -translate-x-1/2;
+      }
+      .image-upload-button {
+        top: initial;
+        @apply right-7 bottom-6 bg-[#f0f0f0];
+      }
+    }
+  }
+
+  .second {
+    @apply bg-[#d7d3d5];
+
+    .left-side,
+    .right-side,
+    .text-box {
+      @apply box-border;
+    }
+
+    .left-side {
+      @apply flex w-2/5 flex-col items-center justify-center gap-4 p-5;
+
+      .main-image-box {
+        @apply border border-black p-1.5;
+      }
+
+      .greeting-title {
+        @apply text-left;
+      }
+    }
+    .right-side {
+      @apply flex w-3/5 flex-col items-center justify-center p-5;
+
+      .sub-image-container {
+        @apply flex w-full justify-around gap-2.5;
+
+        .sub-image-box {
+          @apply border border-black p-1.5;
+        }
+      }
+    }
+
+    .text-box {
+      @apply mb-3 max-h-[300px] w-full overflow-y-auto leading-normal break-words break-all whitespace-pre-wrap;
+    }
+
+    .main-image-box {
+      @apply h-[350px] w-[350px];
+
+      img {
+        @apply h-full w-full object-cover;
+      }
+    }
+    .sub-image-box {
+      @apply h-[255px] w-[340px];
+
+      img {
+        @apply h-full w-full object-cover;
+      }
+    }
+
+    @media screen and (max-width: 768px) {
+      @apply min-h-dvh flex-col items-stretch justify-center gap-8;
+
+      .left-side,
+      .right-side {
+        @apply m-0 flex-none py-3;
+      }
+
+      .left-side {
+        @apply w-full items-center px-1 py-0.5 text-center;
+
+        .main-image-box {
+          @apply h-[180px] w-full;
+        }
+
+        .greeting-title {
+          @apply text-left text-[1.1rem];
+        }
+      }
+      .right-side {
+        @apply w-full items-center px-1 py-0.5;
+        .sub-image-container {
+          @apply justify-center;
+        }
+      }
+      .main-image-box {
+        @apply h-[180px] w-full;
+      }
+      .sub-image-box {
+        @apply h-[180px] w-[200px];
+      }
+      .text-box {
+        @apply max-h-[180px] max-w-full overflow-y-auto p-0 pr-2 text-center text-[0.95rem] leading-normal;
+      }
+    }
+  }
+
+  .main-title {
+    font-family: var(--font-main);
+    @apply text-8xl font-bold not-italic;
+  }
+
+  .greeting-title {
+    font-family: var(--font-greeting);
+    @apply text-5xl font-normal not-italic;
+  }
+
+  .thanks-paragraph {
+    font-family: var(--font-thanks);
+    @apply text-2xl font-normal not-italic;
+  }
+
+  .upload-button-text {
+    font-family: var(--font-photo-button);
+    @apply text-lg font-normal not-italic underline;
+  }
+}
