@@ -7,6 +7,7 @@
     width: 100%;
     background-color: #f0f0f0;
     box-sizing: border-box;
+
     p {
       font-size: 1.2rem;
       font-weight: bold;
@@ -57,14 +58,11 @@
     .left-side {
       @apply flex w-2/5 flex-col items-center justify-center gap-4 p-5;
 
-      .main-image-box {
-        @apply border border-black p-1.5;
-      }
-
       .greeting-title {
         @apply text-left;
       }
     }
+
     .right-side {
       @apply flex w-3/5 flex-col items-center justify-center p-5;
 
@@ -82,12 +80,13 @@
     }
 
     .main-image-box {
-      @apply h-[350px] w-[350px];
+      @apply h-[350px] w-[350px] border border-black p-1.5;
 
       img {
         @apply h-full w-full object-cover;
       }
     }
+
     .sub-image-box {
       @apply h-[255px] w-[340px];
 
@@ -108,7 +107,7 @@
         @apply w-full items-center px-1 py-0.5 text-center;
 
         .main-image-box {
-          @apply h-[180px] w-full;
+          @apply h-[350px] w-[350px];
         }
 
         .greeting-title {
@@ -117,16 +116,20 @@
       }
       .right-side {
         @apply w-full items-center px-1 py-0.5;
+
         .sub-image-container {
           @apply justify-center;
         }
       }
+
       .main-image-box {
         @apply h-[180px] w-full;
       }
+
       .sub-image-box {
         @apply h-[180px] w-[200px];
       }
+
       .text-box {
         @apply max-h-[180px] max-w-full overflow-y-auto p-0 pr-2 text-center text-[0.95rem] leading-normal;
       }
