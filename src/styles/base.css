@@ -1,0 +1,13 @@
+@layer base {
+  html {
+    @apply scroll-smooth;
+  }
+
+  * {
+    @apply select-none;
+  }
+
+  body {
+    @apply mx-auto my-0 min-h-dvh border border-y-0 border-gray-300;
+  }
+}
