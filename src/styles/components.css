@@ -16,7 +16,7 @@
   }
 
   .section {
-    @apply box-border flex h-dvh w-full justify-between bg-[#f0f0f0];
+    @apply box-border flex h-dvh w-full justify-between bg-[#f0f0f0] not-last:border-b not-last:border-[#ccc];
   }
 
   .first {
@@ -134,6 +134,11 @@
         @apply max-h-[180px] max-w-full overflow-y-auto p-0 pr-2 text-center text-[0.95rem] leading-normal;
       }
     }
+  }
+
+  .third {
+    background: url('https://wedding-photos.hjpark625.site/72d06a80-4c0d-46ef-829a-9e0033a1e582.jpeg') no-repeat;
+    @apply bg-cover bg-position-[center,center];
   }
 
   .main-title {
