@@ -62,11 +62,11 @@ function App() {
   }, [])
 
   return isValidated ? (
-    <>
+    <main className="no-scrollbar h-screen snap-y snap-mandatory overflow-y-scroll">
       <FirstSection csrfToken={csrfToken} />
       <SecondSection />
       <ThirdSection />
-    </>
+    </main>
   ) : (
     <section className="validation-message">
       <p>비정상적인 QR 코드입니다. 관리자에게 문의해주세요.</p>
