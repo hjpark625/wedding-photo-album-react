@@ -123,7 +123,7 @@
       }
 
       .text-box {
-        @apply max-h-[180px] max-w-full overflow-y-auto p-0 pr-2 text-center text-[0.95rem] leading-normal;
+        @apply max-w-full overflow-y-auto text-center text-[0.95rem] leading-normal break-keep;
       }
     }
   }
