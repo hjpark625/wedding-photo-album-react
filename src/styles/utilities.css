@@ -1,2 +1,11 @@
 @layer utilities {
+  .no-scrollbar {
+    /* NOTE: 웹킷 브라우저 */
+    &::-webkit-scrollbar {
+      @apply hidden;
+    }
+    scrollbar-width: none; /* NOTE: 파이어폭스 */
+    -ms-overflow-style: none; /* NOTE: IE 및 Edge */
+    overflow: -moz-scrollbars-none; /* NOTE: 구형 파이어폭스 */
+  }
 }
