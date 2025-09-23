@@ -15,7 +15,7 @@ on:
 
 jobs:
   build:
-    name: Setup nad Build App
+    name: Setup and Build App
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
