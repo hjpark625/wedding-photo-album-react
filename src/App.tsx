@@ -1,49 +1,31 @@
-import { useEffect, useState } from 'react'
-import { AxiosError } from 'axios'
+import { useEffect } from 'react'
+import { useSelector } from 'react-redux'
 
 import FirstSection from '@/sections/FirstSection'
 import SecondSection from '@/sections/SecondSection'
 import ThirdSection from '@/sections/ThirdSection'
 
-import { getCsrfToken, getQrAccessValidation } from '@/api/authRequest'
+import { useAppDispatch } from '@/stores'
+import { startQrAccessValidation } from '@/stores/auth'
+
+import type { RootState } from '@/stores'
 
 function App() {
   const searchParams = new URLSearchParams(window.location.search)
 
-  const [isValidated, setIsValidated] = useState(false)
-  const [csrfToken, setCsrfToken] = useState('')
-
-  const onHandleCsrfTokenRequest = async () => {
-    if (csrfToken) return
-
-    const token = await getCsrfToken()
-    setCsrfToken(token)
-
-    return token
-  }
+  const { csrfToken, isValidated, status } = useSelector((state: RootState) => state.auth)
+  const dispatch = useAppDispatch()
 
   const QrValidateAccessWithGetToken = async () => {
-    const expired = searchParams.get('expires')
+    const expires = searchParams.get('expires')
     const sig = searchParams.get('sig')
 
-    if (!expired || !sig) {
+    if (!expires || !sig) {
       window.alert('잘못된 접근입니다. 새로고침 후 다시 시도해주세요.')
       return
     }
 
-    try {
-      await getQrAccessValidation(expired, sig)
-      setIsValidated(true)
-      await onHandleCsrfTokenRequest()
-    } catch (err: unknown) {
-      if (err instanceof AxiosError) {
-        if (err.response?.status === 403 || err.response?.status === 401) {
-          window.alert(err.response.data.message)
-        }
-      }
-      setIsValidated(false)
-      console.error('QR 인증 에러: ', err)
-    }
+    dispatch(startQrAccessValidation({ expires, sig }))
   }
 
   const contextMenuPreventHandler = (e: MouseEvent) => {
@@ -60,6 +42,12 @@ function App() {
       window.removeEventListener('contextmenu', contextMenuPreventHandler)
     }
   }, [])
+
+  useEffect(() => {
+    if (status === 'error') {
+      window.alert('잠시 에러가 발생했습니다. 잠시 후 다시 시도해주세요')
+    }
+  }, [status])
 
   return isValidated ? (
     <main className="no-scrollbar h-screen snap-y snap-mandatory overflow-y-scroll">
