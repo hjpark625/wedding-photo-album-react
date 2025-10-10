@@ -1,5 +1,7 @@
-import { useRef } from 'react'
+import { useLayoutEffect, useRef, useState } from 'react'
 import { AxiosError } from 'axios'
+
+import Modal from '@/shared/components/Modal'
 
 import { uploadPhotos } from '@/api/photoRequest'
 
@@ -8,6 +10,7 @@ interface FirstSectionProps {
 }
 
 function FirstSection({ csrfToken }: FirstSectionProps) {
+  const [isModalOpen, setIsModalOpen] = useState(true)
   const inputRef = useRef<HTMLInputElement>(null)
 
   const onUploadPhotos = async (formData: FormData) => {
@@ -45,8 +48,35 @@ function FirstSection({ csrfToken }: FirstSectionProps) {
     inputRef.current.click()
   }
 
+  const onCloseModal = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault()
+    setIsModalOpen(false)
+  }
+
+  useLayoutEffect(() => {
+    if (isModalOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'auto'
+    }
+  }, [isModalOpen])
+
   return (
     <section className="section first">
+      <Modal isOpen={isModalOpen}>
+        <div className="rounded-lg bg-white p-4">
+          <div className="flex flex-col items-center justify-center">
+            <p className="mb-3.5 max-w-[200px] text-center break-words">사진 업로드가 완료되었습니다. 감사합니다.</p>
+            <button
+              className="cursor-pointer rounded-md bg-gray-500 p-2 text-white transition-colors hover:bg-gray-600"
+              type="button"
+              onClick={onCloseModal}
+            >
+              닫기
+            </button>
+          </div>
+        </div>
+      </Modal>
       <p className="main-title title-section">YongGeun & HeeSook</p>
       <button type="button" className="upload-button-text image-upload-button" onClick={onInputTrigger}>
         사진 업로드하기
