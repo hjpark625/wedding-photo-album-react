@@ -4,6 +4,7 @@ import createSagaMiddleware from 'redux-saga'
 import { createLogger } from 'redux-logger'
 
 import { authReducer } from '@/stores/auth'
+import { photoReducer } from '@/stores/photos'
 import { authSaga } from '@/middlewares/authSaga'
 
 const sagaMiddleware = createSagaMiddleware()
@@ -12,7 +13,8 @@ const logger = createLogger()
 const isProduction = import.meta.env.PROD
 
 const rootReducer = combineReducers({
-  auth: authReducer
+  auth: authReducer,
+  photos: photoReducer
 })
 
 const rootSaga = function* () {
