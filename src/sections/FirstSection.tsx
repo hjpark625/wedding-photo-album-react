@@ -1,6 +1,7 @@
 import { useLayoutEffect, useRef, useTransition } from 'react'
 import { useSelector } from 'react-redux'
 import { AxiosError } from 'axios'
+import { useRollbar } from '@rollbar/react'
 
 import Modal from '@/shared/components/Modal'
 import Spinner from '@/shared/components/Spinner'
@@ -12,6 +13,7 @@ import { uploadPhotos } from '@/api/photoRequest'
 import type { RootState } from '@/stores'
 
 function FirstSection() {
+  const rollbar = useRollbar()
   const [isUploading, startTransition] = useTransition()
   const dispatch = useAppDispatch()
   const csrfToken = useSelector((state: RootState) => state.auth.csrfToken)
@@ -29,10 +31,12 @@ function FirstSection() {
         if (err instanceof AxiosError) {
           if (err.response?.status === 403) {
             dispatch(failUploadPhotos('CSRF 토큰이 유효하지 않습니다.'))
+            rollbar.error('CSRF token error', { message: err.message, status: err.response.status })
             window.alert('비정상적인 접근입니다. 새로고침 후 다시 시도해주세요.')
           }
         }
         dispatch(failUploadPhotos('사진 업로드에 실패했습니다.'))
+        rollbar.error('Photo upload error', { message: (err as Error).message })
         console.error('사진 업로드 에러: ', err)
       }
     })
