@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
+import { useRollbar } from '@rollbar/react'
 
 import FirstSection from '@/sections/FirstSection'
 import SecondSection from '@/sections/SecondSection'
@@ -11,9 +12,10 @@ import { startQrAccessValidation } from '@/stores/auth'
 import type { RootState } from '@/stores'
 
 function App() {
+  const rollbar = useRollbar()
   const searchParams = new URLSearchParams(window.location.search)
 
-  const { isValidated, status } = useSelector((state: RootState) => state.auth)
+  const { isValidated, status, message } = useSelector((state: RootState) => state.auth)
   const dispatch = useAppDispatch()
 
   const QrValidateAccessWithGetToken = async () => {
@@ -46,6 +48,7 @@ function App() {
   useEffect(() => {
     if (status === 'error') {
       window.alert('잠시 에러가 발생했습니다. 잠시 후 다시 시도해주세요')
+      rollbar.error('Authentication error', { status, message })
     }
   }, [status])
 
