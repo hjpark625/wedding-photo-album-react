@@ -1,7 +1,5 @@
 import { createAction, createReducer } from '@reduxjs/toolkit'
 
-import { produce } from 'immer'
-
 const setIsModalOpen = createAction<boolean>('auth/SET_IS_MODAL_OPEN')
 const startUploadPhotos = createAction('photos/START_UPLOAD_PHOTOS')
 const successUploadPhotos = createAction('photos/SUCCESS_UPLOAD_PHOTOS')
@@ -21,28 +19,20 @@ const initialState: PhotoState = {
 
 export const photoReducer = createReducer(initialState, (builder) =>
   builder
-    .addCase(setIsModalOpen, (state, action) =>
-      produce(state, (draft) => {
-        draft.isModalOpen = action.payload
-      })
-    )
-    .addCase(startUploadPhotos, (state) =>
-      produce(state, (draft) => {
-        draft.status = 'loading'
-      })
-    )
-    .addCase(successUploadPhotos, (state) =>
-      produce(state, (draft) => {
-        draft.status = 'success'
-        draft.isModalOpen = true
-      })
-    )
-    .addCase(failUploadPhotos, (state, action) =>
-      produce(state, (draft) => {
-        draft.status = 'error'
-        draft.message = action.payload
-      })
-    )
+    .addCase(setIsModalOpen, (state, action) => {
+      state.isModalOpen = action.payload
+    })
+    .addCase(startUploadPhotos, (state) => {
+      state.status = 'loading'
+    })
+    .addCase(successUploadPhotos, (state) => {
+      state.status = 'success'
+      state.isModalOpen = true
+    })
+    .addCase(failUploadPhotos, (state, action) => {
+      state.status = 'error'
+      state.message = action.payload
+    })
     .addDefaultCase((state) => state)
 )
 

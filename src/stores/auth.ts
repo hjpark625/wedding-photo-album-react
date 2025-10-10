@@ -1,5 +1,4 @@
 import { createAction, createReducer } from '@reduxjs/toolkit'
-import { produce } from 'immer'
 
 const setCsrfToken = createAction<string>('auth/SET_CSRF_TOKEN')
 const setIsValidated = createAction<boolean>('auth/SET_IS_VALIDATED')
@@ -27,48 +26,32 @@ const initialState: AuthState = {
 
 export const authReducer = createReducer(initialState, (builder) =>
   builder
-    .addCase(setCsrfToken, (state, action) =>
-      produce(state, (draft) => {
-        draft.csrfToken = action.payload
-      })
-    )
-    .addCase(setIsValidated, (state, action) =>
-      produce(state, (draft) => {
-        draft.isValidated = action.payload
-      })
-    )
-    .addCase(startGetCsrfToken, (state) =>
-      produce(state, (draft) => {
-        draft.status = 'loading'
-      })
-    )
-    .addCase(successGetCsrfToken, (state) =>
-      produce(state, (draft) => {
-        draft.status = 'success'
-      })
-    )
-    .addCase(failGetCsrfToken, (state, action) =>
-      produce(state, (draft) => {
-        draft.status = 'error'
-        draft.message = action.payload
-      })
-    )
-    .addCase(startQrAccessValidation, (state) =>
-      produce(state, (draft) => {
-        draft.status = 'loading'
-      })
-    )
-    .addCase(successQrAccessValidation, (state) =>
-      produce(state, (draft) => {
-        draft.status = 'success'
-      })
-    )
-    .addCase(failQrAccessValidation, (state, action) =>
-      produce(state, (draft) => {
-        draft.status = 'error'
-        draft.message = action.payload
-      })
-    )
+    .addCase(setCsrfToken, (state, action) => {
+      state.csrfToken = action.payload
+    })
+    .addCase(setIsValidated, (state, action) => {
+      state.isValidated = action.payload
+    })
+    .addCase(startGetCsrfToken, (state) => {
+      state.status = 'loading'
+    })
+    .addCase(successGetCsrfToken, (state) => {
+      state.status = 'success'
+    })
+    .addCase(failGetCsrfToken, (state, action) => {
+      state.status = 'error'
+      state.message = action.payload
+    })
+    .addCase(startQrAccessValidation, (state) => {
+      state.status = 'loading'
+    })
+    .addCase(successQrAccessValidation, (state) => {
+      state.status = 'success'
+    })
+    .addCase(failQrAccessValidation, (state, action) => {
+      state.status = 'error'
+      state.message = action.payload
+    })
     .addDefaultCase((state) => state)
 )
 
