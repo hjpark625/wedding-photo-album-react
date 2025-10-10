@@ -1,30 +1,41 @@
-import { useLayoutEffect, useRef, useState } from 'react'
+import { useLayoutEffect, useRef, useTransition } from 'react'
+import { useSelector } from 'react-redux'
 import { AxiosError } from 'axios'
 
 import Modal from '@/shared/components/Modal'
+import Spinner from '@/shared/components/Spinner'
 
+import { useAppDispatch } from '@/stores'
+import { failUploadPhotos, setIsModalOpen, startUploadPhotos, successUploadPhotos } from '@/stores/photos'
 import { uploadPhotos } from '@/api/photoRequest'
 
-interface FirstSectionProps {
-  csrfToken: string
-}
+import type { RootState } from '@/stores'
 
-function FirstSection({ csrfToken }: FirstSectionProps) {
-  const [isModalOpen, setIsModalOpen] = useState(true)
+function FirstSection() {
+  const [isUploading, startTransition] = useTransition()
+  const dispatch = useAppDispatch()
+  const csrfToken = useSelector((state: RootState) => state.auth.csrfToken)
+  const { isModalOpen, status } = useSelector((state: RootState) => state.photos)
+
   const inputRef = useRef<HTMLInputElement>(null)
 
-  const onUploadPhotos = async (formData: FormData) => {
-    try {
-      await uploadPhotos(formData, csrfToken)
-      return window.alert('사진 업로드가 완료되었습니다. 감사합니다.')
-    } catch (err: unknown) {
-      console.error('사진 업로드 에러: ', err)
-      if (err instanceof AxiosError) {
-        if (err.response?.status === 403) {
-          window.alert('비정상적인 접근입니다. 새로고침 후 다시 시도해주세요.')
+  const onUploadPhotos = (formData: FormData) => {
+    startTransition(async () => {
+      dispatch(startUploadPhotos())
+      try {
+        await uploadPhotos(formData, csrfToken)
+        dispatch(successUploadPhotos())
+      } catch (err: unknown) {
+        if (err instanceof AxiosError) {
+          if (err.response?.status === 403) {
+            dispatch(failUploadPhotos('CSRF 토큰이 유효하지 않습니다.'))
+            window.alert('비정상적인 접근입니다. 새로고침 후 다시 시도해주세요.')
+          }
         }
+        dispatch(failUploadPhotos('사진 업로드에 실패했습니다.'))
+        console.error('사진 업로드 에러: ', err)
       }
-    }
+    })
   }
 
   const saveAttachImages = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,7 +47,7 @@ function FirstSection({ csrfToken }: FirstSectionProps) {
         formData.append('images', file)
       }
 
-      await onUploadPhotos(formData)
+      onUploadPhotos(formData)
     }
   }
 
@@ -50,19 +61,20 @@ function FirstSection({ csrfToken }: FirstSectionProps) {
 
   const onCloseModal = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
-    setIsModalOpen(false)
+    dispatch(setIsModalOpen(false))
   }
 
   useLayoutEffect(() => {
-    if (isModalOpen) {
+    if (isModalOpen || status === 'loading') {
       document.body.style.overflow = 'hidden'
     } else {
       document.body.style.overflow = 'auto'
     }
-  }, [isModalOpen])
+  }, [isModalOpen, status])
 
   return (
     <section className="section first">
+      {isUploading && <Spinner />}
       <Modal isOpen={isModalOpen}>
         <div className="rounded-lg bg-white p-4">
           <div className="flex flex-col items-center justify-center">
