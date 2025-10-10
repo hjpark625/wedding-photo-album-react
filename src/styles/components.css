@@ -152,4 +152,12 @@
     font-family: var(--font-photo-button);
     @apply text-lg font-normal not-italic underline;
   }
+
+  .loading-spinner-container {
+    @apply fixed top-0 left-0 z-50 flex h-screen w-full items-center justify-center bg-black/40;
+
+    & .loading-spinner {
+      @apply h-full max-h-16 w-full max-w-16 animate-spin rounded-full border-t-4 border-b-4 border-blue-500;
+    }
+  }
 }
