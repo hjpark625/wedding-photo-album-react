@@ -13,7 +13,7 @@ import type { RootState } from '@/stores'
 function App() {
   const searchParams = new URLSearchParams(window.location.search)
 
-  const { csrfToken, isValidated, status } = useSelector((state: RootState) => state.auth)
+  const { isValidated, status } = useSelector((state: RootState) => state.auth)
   const dispatch = useAppDispatch()
 
   const QrValidateAccessWithGetToken = async () => {
@@ -51,7 +51,7 @@ function App() {
 
   return isValidated ? (
     <main className="no-scrollbar h-screen snap-y snap-mandatory overflow-y-scroll">
-      <FirstSection csrfToken={csrfToken} />
+      <FirstSection />
       <SecondSection />
       <ThirdSection />
     </main>
