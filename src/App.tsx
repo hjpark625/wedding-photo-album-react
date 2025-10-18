@@ -53,7 +53,7 @@ function App() {
   }, [status])
 
   return isValidated ? (
-    <main className="no-scrollbar h-screen snap-y snap-mandatory overflow-y-scroll">
+    <main className="no-scrollbar h-dvh snap-y snap-mandatory overflow-y-scroll">
       <FirstSection />
       <SecondSection />
       <ThirdSection />

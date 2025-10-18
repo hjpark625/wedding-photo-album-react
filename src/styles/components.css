@@ -88,7 +88,7 @@
     }
 
     @media screen and (max-width: 768px) {
-      @apply min-h-dvh flex-col items-stretch justify-center gap-8;
+      @apply flex-col items-stretch justify-start gap-4 py-4;
 
       .left-side,
       .right-side {
@@ -96,18 +96,18 @@
       }
 
       .left-side {
-        @apply w-full items-center px-1 py-0.5 text-center;
+        @apply w-full items-center px-2 py-2 text-center;
 
         .main-image-box {
-          @apply h-[350px] w-[350px];
+          @apply h-[280px] w-[280px];
         }
 
         .greeting-title {
-          @apply text-left text-[1.1rem];
+          @apply mb-2 text-center text-2xl;
         }
       }
       .right-side {
-        @apply w-full items-center px-1 py-0.5;
+        @apply w-full items-center px-2 py-2;
 
         .sub-image-container {
           @apply justify-center;
@@ -136,6 +136,10 @@
   .main-title {
     font-family: var(--font-main);
     @apply text-8xl font-bold not-italic;
+
+    @media screen and (max-width: 768px) {
+      @apply text-7xl;
+    }
   }
 
   .greeting-title {
