@@ -10,15 +10,10 @@ import prettierConfig from 'eslint-config-prettier'
 
 export default defineConfig([
   globalIgnores(['dist']),
+  reactHooks.configs.flat.recommended,
   {
     files: ['**/*.{ts,tsx}'],
-    extends: [
-      js.configs.recommended,
-      tseslint.configs.recommended,
-      reactHooks.configs['recommended-latest'],
-      reactRefresh.configs.vite,
-      prettierConfig
-    ],
+    extends: [js.configs.recommended, tseslint.configs.recommended, reactRefresh.configs.vite, prettierConfig],
     plugins: {
       prettier: prettierPlugin
     },
