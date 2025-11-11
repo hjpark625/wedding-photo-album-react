@@ -8,6 +8,7 @@ import ThirdSection from '@/sections/ThirdSection'
 
 import { useAppDispatch } from '@/stores'
 import { startQrAccessValidation } from '@/stores/auth'
+// import { getQrAccessValidationThunk } from '@/stores/auth'
 
 import type { RootState } from '@/stores'
 
@@ -27,6 +28,7 @@ function App() {
       return
     }
 
+    // dispatch(getQrAccessValidationThunk({ expires, sig }))
     dispatch(startQrAccessValidation({ expires, sig }))
   }
 
