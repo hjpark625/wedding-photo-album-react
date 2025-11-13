@@ -1,9 +1,10 @@
 import { createAction, createReducer } from '@reduxjs/toolkit'
 
-const setIsModalOpen = createAction<boolean>('auth/SET_IS_MODAL_OPEN')
-const startUploadPhotos = createAction('photos/START_UPLOAD_PHOTOS')
-const successUploadPhotos = createAction('photos/SUCCESS_UPLOAD_PHOTOS')
-const failUploadPhotos = createAction<string>('photos/FAIL_UPLOAD_PHOTOS')
+import { photoRequestAPI } from '@/api/photoRequest'
+
+import type { AxiosBaseQueryError } from '@/api/instance'
+
+const setIsModalOpen = createAction<boolean>('auth/setIsModalOpen')
 
 interface PhotoState {
   isModalOpen: boolean
@@ -22,18 +23,19 @@ export const photoReducer = createReducer(initialState, (builder) =>
     .addCase(setIsModalOpen, (state, action) => {
       state.isModalOpen = action.payload
     })
-    .addCase(startUploadPhotos, (state) => {
+    .addMatcher(photoRequestAPI.endpoints.uploadPhotos.matchPending, (state) => {
       state.status = 'loading'
     })
-    .addCase(successUploadPhotos, (state) => {
+    .addMatcher(photoRequestAPI.endpoints.uploadPhotos.matchFulfilled, (state) => {
       state.status = 'success'
       state.isModalOpen = true
     })
-    .addCase(failUploadPhotos, (state, action) => {
+    .addMatcher(photoRequestAPI.endpoints.uploadPhotos.matchRejected, (state, action) => {
+      const { data } = action.payload as AxiosBaseQueryError
       state.status = 'error'
-      state.message = action.payload
+      state.message = data.message ?? '사진 업로드 실패'
     })
     .addDefaultCase((state) => state)
 )
 
-export { setIsModalOpen, startUploadPhotos, successUploadPhotos, failUploadPhotos }
+export { setIsModalOpen }
