@@ -1,13 +1,12 @@
 import { combineReducers, configureStore, type Middleware } from '@reduxjs/toolkit'
 import { useDispatch } from 'react-redux'
-import createSagaMiddleware from 'redux-saga'
+
 import { createLogger } from 'redux-logger'
 
 import { authReducer } from '@/stores/auth'
 import { photoReducer } from '@/stores/photos'
 import { authRequestAPI } from '@/api/authRequest'
 
-const sagaMiddleware = createSagaMiddleware()
 const logger = createLogger()
 
 const isProduction = import.meta.env.PROD
@@ -18,9 +17,7 @@ const rootReducer = combineReducers({
   photos: photoReducer
 })
 
-const middlewares: Middleware[] = isProduction
-  ? [sagaMiddleware, authRequestAPI.middleware]
-  : [sagaMiddleware, logger, authRequestAPI.middleware]
+const middlewares: Middleware[] = isProduction ? [authRequestAPI.middleware] : [authRequestAPI.middleware, logger]
 
 const store = configureStore({
   reducer: rootReducer,
