@@ -1,4 +1,4 @@
-import { combineReducers, configureStore, type Middleware } from '@reduxjs/toolkit'
+import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import { useDispatch } from 'react-redux'
 
 import { createLogger } from 'redux-logger'
@@ -7,6 +7,8 @@ import { authReducer } from '@/stores/auth'
 import { photoReducer } from '@/stores/photos'
 import { authRequestAPI } from '@/api/authRequest'
 import { photoRequestAPI } from '@/api/photoRequest'
+
+import type { Middleware } from '@reduxjs/toolkit'
 
 const logger = createLogger()
 
