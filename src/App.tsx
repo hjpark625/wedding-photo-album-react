@@ -6,31 +6,19 @@ import FirstSection from '@/sections/FirstSection'
 import SecondSection from '@/sections/SecondSection'
 import ThirdSection from '@/sections/ThirdSection'
 
-import { useAppDispatch } from '@/stores'
-import { startQrAccessValidation } from '@/stores/auth'
-// import { getQrAccessValidationThunk } from '@/stores/auth'
+import { useGetQrAccessValidationQuery } from '@/api/authRequest'
 
 import type { RootState } from '@/stores'
 
 function App() {
   const rollbar = useRollbar()
   const searchParams = new URLSearchParams(window.location.search)
-
   const { isValidated, status, message } = useSelector((state: RootState) => state.auth)
-  const dispatch = useAppDispatch()
 
-  const QrValidateAccessWithGetToken = async () => {
-    const expires = searchParams.get('expires')
-    const sig = searchParams.get('sig')
+  const expires = searchParams.get('expires')
+  const sig = searchParams.get('sig')
 
-    if (!expires || !sig) {
-      window.alert('잘못된 접근입니다. 새로고침 후 다시 시도해주세요.')
-      return
-    }
-
-    // dispatch(getQrAccessValidationThunk({ expires, sig }))
-    dispatch(startQrAccessValidation({ expires, sig }))
-  }
+  useGetQrAccessValidationQuery({ expires: expires ?? '', sig: sig ?? '' })
 
   const contextMenuPreventHandler = (e: MouseEvent) => {
     e.preventDefault()
@@ -38,21 +26,20 @@ function App() {
   }
 
   useEffect(() => {
-    QrValidateAccessWithGetToken()
+    if (status === 'error') {
+      window.alert(message)
+      rollbar.error(message, { status, message })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [status, message])
 
+  useEffect(() => {
     window.addEventListener('contextmenu', contextMenuPreventHandler)
 
     return () => {
       window.removeEventListener('contextmenu', contextMenuPreventHandler)
     }
   }, [])
-
-  useEffect(() => {
-    if (status === 'error') {
-      window.alert('잠시 에러가 발생했습니다. 잠시 후 다시 시도해주세요')
-      rollbar.error('Authentication error', { status, message })
-    }
-  }, [status])
 
   return isValidated ? (
     <main className="no-scrollbar h-dvh snap-y snap-mandatory overflow-y-scroll">
