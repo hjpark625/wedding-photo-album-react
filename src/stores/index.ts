@@ -6,6 +6,7 @@ import { createLogger } from 'redux-logger'
 import { authReducer } from '@/stores/auth'
 import { photoReducer } from '@/stores/photos'
 import { authRequestAPI } from '@/api/authRequest'
+import { photoRequestAPI } from '@/api/photoRequest'
 
 const logger = createLogger()
 
@@ -13,11 +14,14 @@ const isProduction = import.meta.env.PROD
 
 const rootReducer = combineReducers({
   [authRequestAPI.reducerPath]: authRequestAPI.reducer,
+  [photoRequestAPI.reducerPath]: photoRequestAPI.reducer,
   auth: authReducer,
   photos: photoReducer
 })
 
-const middlewares: Middleware[] = isProduction ? [authRequestAPI.middleware] : [authRequestAPI.middleware, logger]
+const middlewares: Middleware[] = isProduction
+  ? [authRequestAPI.middleware, photoRequestAPI.middleware]
+  : [authRequestAPI.middleware, photoRequestAPI.middleware, logger]
 
 const store = configureStore({
   reducer: rootReducer,
