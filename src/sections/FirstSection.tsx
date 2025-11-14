@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useTransition } from 'react'
+import { useLayoutEffect, useRef } from 'react'
 import { useSelector } from 'react-redux'
 import { AxiosError } from 'axios'
 import { useRollbar } from '@rollbar/react'
@@ -14,31 +14,26 @@ import type { RootState } from '@/stores'
 
 function FirstSection() {
   const rollbar = useRollbar()
-  const [uploadPhotos] = useUploadPhotosMutation()
-  const [isUploading, startTransition] = useTransition()
+  const [uploadPhotos, { isLoading }] = useUploadPhotosMutation()
   const dispatch = useAppDispatch()
   const csrfToken = useSelector((state: RootState) => state.auth.csrfToken)
   const isModalOpen = useSelector((state: RootState) => state.photos.isModalOpen)
-  const status = useSelector((state: RootState) => state.photos.status)
 
   const inputRef = useRef<HTMLInputElement>(null)
 
-  const onUploadPhotos = (formData: FormData) => {
-    startTransition(async () => {
-      try {
-        await uploadPhotos({ formData, csrfToken }).unwrap()
-      } catch (err: unknown) {
-        if (err instanceof AxiosError) {
-          if (err.response?.status === 403) {
-            rollbar.error('CSRF token error', { message: err.message, status: err.response.status })
-            window.alert('비정상적인 접근입니다. 새로고침 후 다시 시도해주세요.')
-          }
+  const onUploadPhotos = async (formData: FormData) => {
+    try {
+      await uploadPhotos({ formData, csrfToken }).unwrap()
+    } catch (err: unknown) {
+      if (err instanceof AxiosError) {
+        if (err.response?.status === 403) {
+          rollbar.error('CSRF token error', { message: err.message, status: err.response.status })
+          window.alert('오류가 발생했습니다. 새로고침 후 다시 시도해주세요.')
         }
-
-        rollbar.error('Photo upload error', { message: (err as Error).message })
-        console.error('사진 업로드 에러: ', err)
       }
-    })
+
+      rollbar.error('Photo upload error', { message: (err as Error).message })
+    }
   }
 
   const saveAttachImages = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -68,16 +63,16 @@ function FirstSection() {
   }
 
   useLayoutEffect(() => {
-    if (isModalOpen || status === 'loading') {
+    if (isModalOpen || isLoading) {
       document.body.style.overflow = 'hidden'
     } else {
       document.body.style.overflow = 'auto'
     }
-  }, [isModalOpen, status])
+  }, [isModalOpen, isLoading])
 
   return (
     <section className="section first">
-      {isUploading && <Spinner />}
+      {isLoading && <Spinner />}
       <Modal isOpen={isModalOpen}>
         <div className="rounded-lg bg-white p-4">
           <div className="flex flex-col items-center justify-center">
