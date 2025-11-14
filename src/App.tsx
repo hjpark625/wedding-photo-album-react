@@ -18,7 +18,7 @@ function App() {
   const expires = searchParams.get('expires')
   const sig = searchParams.get('sig')
 
-  useGetQrAccessValidationQuery({ expires: expires ?? '', sig: sig ?? '' })
+  useGetQrAccessValidationQuery({ expires, sig })
 
   const contextMenuPreventHandler = (e: MouseEvent) => {
     e.preventDefault()
