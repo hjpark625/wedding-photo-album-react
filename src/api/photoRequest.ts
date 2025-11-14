@@ -14,12 +14,9 @@ export const photoRequestAPI = createApi({
         url: '/image/upload',
         method: 'POST',
         data: formData,
-        headers: {
-          'X-CSRF-Token': csrfToken
-        }
+        headers: { 'X-CSRF-Token': csrfToken }
       }),
-      transformResponse: (response: UploadImagesResponse) => response.imageUrls,
-      invalidatesTags: [{ type: 'PhotoRequest' as const, id: 'UPLOAD_PHOTOS' }]
+      transformResponse: (response: UploadImagesResponse) => response.imageUrls
     })
   })
 })

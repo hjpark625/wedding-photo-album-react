@@ -1,5 +1,4 @@
 import { useEffect } from 'react'
-import { useSelector } from 'react-redux'
 import { useRollbar } from '@rollbar/react'
 
 import FirstSection from '@/sections/FirstSection'
@@ -8,17 +7,16 @@ import ThirdSection from '@/sections/ThirdSection'
 
 import { useGetQrAccessValidationQuery } from '@/api/authRequest'
 
-import type { RootState } from '@/stores'
+import type { AxiosBaseQueryError } from '@/api/instance'
 
 function App() {
   const rollbar = useRollbar()
   const searchParams = new URLSearchParams(window.location.search)
-  const { isValidated, status, message } = useSelector((state: RootState) => state.auth)
 
   const expires = searchParams.get('expires')
   const sig = searchParams.get('sig')
 
-  useGetQrAccessValidationQuery({ expires: expires ?? '', sig: sig ?? '' })
+  const { isError, error, isSuccess } = useGetQrAccessValidationQuery({ expires, sig })
 
   const contextMenuPreventHandler = (e: MouseEvent) => {
     e.preventDefault()
@@ -26,12 +24,15 @@ function App() {
   }
 
   useEffect(() => {
-    if (status === 'error') {
+    if (isError && error) {
+      const err = { error: error as AxiosBaseQueryError }
+      const { message } = err.error.data
+      const { status } = err.error
       window.alert(message)
       rollbar.error(message, { status, message })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [status, message])
+  }, [isError, error])
 
   useEffect(() => {
     window.addEventListener('contextmenu', contextMenuPreventHandler)
@@ -41,7 +42,7 @@ function App() {
     }
   }, [])
 
-  return isValidated ? (
+  return isSuccess ? (
     <main className="no-scrollbar h-dvh snap-y snap-mandatory overflow-y-scroll">
       <FirstSection />
       <SecondSection />
